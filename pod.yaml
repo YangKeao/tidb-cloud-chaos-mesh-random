@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tidb-cloud-chaos-test
+  namespace: tidb-cloud-chaos-test
+  labels:
+    app: tidb-cloud-chaos-test
+spec:
+  serviceAccountName: tidb-cloud-chaos-test
+  restartPolicy: Never
+  containers:
+  - name: tidb-cloud-chaos-test
+    image: yangkeao/tidb-cloud-chaos-mesh-random:latest
+    imagePullPolicy: Always
+    command:
+      - "bash"
+      - "-c"
+      - "node index.mjs | tee -a /var/log/runtime.log"
+    volumeMounts:
+      - mountPath: /var/log
+        name: log-volume
+    env:
+      - name: HOST
+        value: db-tidb.tidb1369682775200136354
+      - name: PORT
+        value: "4000"
+      - name: USER
+        value: "root"
+      - name: PASSWORD
+        value: "pingcap!@#"
+      - name: DATABASE
+        value: "test"
+      - name: WAREHOUSE
+        value: "1"
+      - name: THREAD
+        value: "4"
+  volumes:
+  - name: log-volume
+    hostPath:
+      path: /var/log/tidb-cloud-chaos-test-log
+      type: DirectoryOrCreate

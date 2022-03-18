@@ -1,0 +1,12 @@
+{
+  "name": "tidb-cloud-chaos-mesh-random",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "pino": "^7.8.1",
+    "yaml": "^1.10.2",
+    "zx": "^6.0.1"
+  }
+}

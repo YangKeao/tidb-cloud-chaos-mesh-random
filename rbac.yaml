@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tidb-cloud-chaos-test
+  namespace: tidb-cloud-chaos-test
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: chaos-editor
+rules:
+- apiGroups: ["chaos-mesh.org"] # "" indicates the core API group
+  resources: ["dnschaos", "networkchaos", "podchaos", "iochaos", "httpchaos", "kernelchaos", "blockchaos", "timechaos", "stresschaos"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["pingcap.com"] # "" indicates the core API group
+  resources: ["tidbclusters"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: chaos-editor
+subjects:
+- kind: ServiceAccount
+  name: tidb-cloud-chaos-test
+  namespace: tidb-cloud-chaos-test
+roleRef:
+  kind: ClusterRole
+  name: chaos-editor
+  apiGroup: rbac.authorization.k8s.io

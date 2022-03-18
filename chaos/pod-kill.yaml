@@ -1,0 +1,14 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-kill
+  namespace: tidb1369682775200136354
+spec:
+  action: pod-kill
+  mode: random-max-percent
+  value: "100"
+  selector:
+    namespaces:
+      - tidb1369682775200136354
+    labelSelectors:
+      'app.kubernetes.io/name': 'tidb-cluster'
